@@ -32,3 +32,8 @@ export function splitInGroups(lines: string[]): string[][] {
     )
     .filter((group) => group.length);
 }
+
+/** This function transpose a Matrix */
+export function transposeMatrix<T>(a: T[][]): T[][] {
+  return Object.keys(a[0]).map((c) => a.map((r) => r[c]));
+}
