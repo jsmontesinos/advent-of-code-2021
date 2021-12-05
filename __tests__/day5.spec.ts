@@ -1,5 +1,6 @@
 import {
   computePointsOverlapping,
+  isHorizontalOrVertical,
   parseHydrothermalLines,
   plotHydrothermalLine,
 } from '../src/day5';
@@ -76,7 +77,9 @@ describe('day1', () => {
       '5,5 -> 8,2',
     ];
     it('should return 5 points overlapping', () => {
-      expect(computePointsOverlapping(inputExample)).toBe(5);
+      expect(
+        computePointsOverlapping(inputExample, isHorizontalOrVertical),
+      ).toBe(5);
     });
   });
 });

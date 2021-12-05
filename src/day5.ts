@@ -33,14 +33,19 @@ export function plotHydrothermalLine(line: Line): Point[] {
   return plotting;
 }
 
-export function computePointsOverlapping(input: string[]): number {
+export function isHorizontalOrVertical(line: Line): boolean {
+  return line.start.x === line.end.x || line.start.y === line.end.y;
+}
+
+export function computePointsOverlapping(
+  input: string[],
+  lineFilter: (line: Line) => boolean = () => true,
+): number {
   const getPointKey = (point: Point) => `${point.x}_${point.y}`;
-  const isVertical = (line: Line) => line.start.x === line.end.x;
-  const isHorizontal = (line: Line) => line.start.y === line.end.y;
 
   const countingMap = input
     .map(parseLine)
-    .filter((line) => isVertical(line) || isHorizontal(line))
+    .filter(lineFilter)
     .flatMap(plotHydrothermalLine)
     .map(getPointKey)
     .reduce(
@@ -53,5 +58,5 @@ export function computePointsOverlapping(input: string[]): number {
 
 export async function day5(): Promise<string[]> {
   const lines = await readyDayFixture(5);
-  return [computePointsOverlapping(lines).toString()];
+  return [computePointsOverlapping(lines, isHorizontalOrVertical).toString()];
 }
