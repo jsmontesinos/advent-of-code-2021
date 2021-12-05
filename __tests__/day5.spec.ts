@@ -31,6 +31,35 @@ describe('day1', () => {
         { x: 1, y: 3 },
       ]);
     });
+
+    it('should plot all points in an horizontal line where end.y < start.y', () => {
+      const horizontalLine = { start: { x: 1, y: 4 }, end: { x: 1, y: 1 } };
+      expect(plotHydrothermalLine(horizontalLine)).toEqual([
+        { x: 1, y: 4 },
+        { x: 1, y: 3 },
+        { x: 1, y: 2 },
+        { x: 1, y: 1 },
+      ]);
+    });
+
+    it('should plot all points in an vertical line', () => {
+      const horizontalLine = { start: { x: 1, y: 1 }, end: { x: 3, y: 1 } };
+      expect(plotHydrothermalLine(horizontalLine)).toEqual([
+        { x: 1, y: 1 },
+        { x: 2, y: 1 },
+        { x: 3, y: 1 },
+      ]);
+    });
+
+    it('should plot all points in an vertical line where end.x < start.x', () => {
+      const horizontalLine = { start: { x: 4, y: 1 }, end: { x: 1, y: 1 } };
+      expect(plotHydrothermalLine(horizontalLine)).toEqual([
+        { x: 4, y: 1 },
+        { x: 3, y: 1 },
+        { x: 2, y: 1 },
+        { x: 1, y: 1 },
+      ]);
+    });
   });
 
   describe('part1', () => {

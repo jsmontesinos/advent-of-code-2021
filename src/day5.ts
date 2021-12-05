@@ -17,9 +17,15 @@ export function parseHydrothermalLines(input: string[]): Array<Line> {
 
 export function plotHydrothermalLine(line: Line): Point[] {
   const yDiff = line.end.y - line.start.y;
+  const xDiff = line.end.x - line.start.x;
   const plotting: Point[] = [];
-  for (let i = 0; i <= yDiff; i++) {
-    plotting.push({ x: line.start.x, y: line.start.x + i });
+  for (let i = 0; i <= Math.abs(xDiff); i++) {
+    for (let j = 0; j <= Math.abs(yDiff); j++) {
+      plotting.push({
+        x: xDiff >= 0 ? line.start.x + i : line.start.x - i,
+        y: yDiff >= 0 ? line.start.y + j : line.start.y - j,
+      });
+    }
   }
 
   return plotting;
