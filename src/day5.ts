@@ -21,11 +21,30 @@ export function plotHydrothermalLine(line: Line): Point[] {
   const yDiff = line.end.y - line.start.y;
   const xDiff = line.end.x - line.start.x;
   const plotting: Point[] = [];
-  for (let i = 0; i <= Math.abs(xDiff); i++) {
-    for (let j = 0; j <= Math.abs(yDiff); j++) {
+  // Horizontal line
+  if (yDiff !== 0 && xDiff === 0) {
+    for (let i = 0; i <= Math.abs(yDiff); i++) {
+      plotting.push({
+        x: line.start.x,
+        y: yDiff >= 0 ? line.start.y + i : line.start.y - i,
+      });
+    }
+  }
+  // Vertical line
+  else if (xDiff !== 0 && yDiff === 0) {
+    for (let i = 0; i <= Math.abs(xDiff); i++) {
       plotting.push({
         x: xDiff >= 0 ? line.start.x + i : line.start.x - i,
-        y: yDiff >= 0 ? line.start.y + j : line.start.y - j,
+        y: line.start.y,
+      });
+    }
+  }
+  // Diagonal line
+  else if (xDiff !== 0 && yDiff !== 0) {
+    for (let i = 0; i <= Math.min(Math.abs(xDiff), Math.abs(yDiff)); i++) {
+      plotting.push({
+        x: xDiff >= 0 ? line.start.x + i : line.start.x - i,
+        y: yDiff >= 0 ? line.start.y + i : line.start.y - i,
       });
     }
   }
