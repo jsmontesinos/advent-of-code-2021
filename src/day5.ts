@@ -20,35 +20,38 @@ export function parseHydrothermalLines(input: string[]): Array<Line> {
 export function plotHydrothermalLine(line: Line): Point[] {
   const yDiff = line.end.y - line.start.y;
   const xDiff = line.end.x - line.start.x;
-  const plotting: Point[] = [];
   // Horizontal line
   if (yDiff !== 0 && xDiff === 0) {
-    for (let i = 0; i <= Math.abs(yDiff); i++) {
-      plotting.push({
-        x: line.start.x,
-        y: yDiff >= 0 ? line.start.y + i : line.start.y - i,
-      });
-    }
+    return plotLine(line, Math.abs(yDiff), 0, yDiff >= 0 ? 1 : -1);
   }
   // Vertical line
   else if (xDiff !== 0 && yDiff === 0) {
-    for (let i = 0; i <= Math.abs(xDiff); i++) {
-      plotting.push({
-        x: xDiff >= 0 ? line.start.x + i : line.start.x - i,
-        y: line.start.y,
-      });
-    }
+    return plotLine(line, Math.abs(xDiff), xDiff >= 0 ? 1 : -1, 0);
   }
   // Diagonal line
-  else if (xDiff !== 0 && yDiff !== 0) {
-    for (let i = 0; i <= Math.min(Math.abs(xDiff), Math.abs(yDiff)); i++) {
-      plotting.push({
-        x: xDiff >= 0 ? line.start.x + i : line.start.x - i,
-        y: yDiff >= 0 ? line.start.y + i : line.start.y - i,
-      });
-    }
+  else {
+    return plotLine(
+      line,
+      Math.min(Math.abs(xDiff), Math.abs(yDiff)),
+      xDiff >= 0 ? 1 : -1,
+      yDiff >= 0 ? 1 : -1,
+    );
   }
+}
 
+function plotLine(
+  line: Line,
+  steps: number,
+  xFactor: 0 | 1 | -1,
+  yFactor: 0 | 1 | -1,
+): Point[] {
+  const plotting: Point[] = [];
+  for (let i = 0; i <= steps; i++) {
+    plotting.push({
+      x: line.start.x + i * xFactor,
+      y: line.start.y + i * yFactor,
+    });
+  }
   return plotting;
 }
 
@@ -77,5 +80,8 @@ export function computePointsOverlapping(
 
 export async function day5(): Promise<string[]> {
   const lines = await readyDayFixture(5);
-  return [computePointsOverlapping(lines, isHorizontalOrVertical).toString()];
+  return [
+    computePointsOverlapping(lines, isHorizontalOrVertical).toString(),
+    computePointsOverlapping(lines).toString(),
+  ];
 }
