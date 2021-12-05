@@ -1,4 +1,8 @@
-import { computePointsOverlapping, parseHydrothermalLines } from '../src/day5';
+import {
+  computePointsOverlapping,
+  parseHydrothermalLines,
+  plotHydrothermalLine,
+} from '../src/day5';
 
 describe('day1', () => {
   describe('parseHydrothermalLines', () => {
@@ -14,6 +18,17 @@ describe('day1', () => {
       expect(parseHydrothermalLines(input)).toEqual([
         { start: { x: 1, y: 1 }, end: { x: 1, y: 3 } },
         { start: { x: 2, y: 1 }, end: { x: 1, y: 0 } },
+      ]);
+    });
+  });
+
+  describe('plotHydrothermalLine', () => {
+    it('should plot all points in an horizontal line', () => {
+      const horizontalLine = { start: { x: 1, y: 1 }, end: { x: 1, y: 3 } };
+      expect(plotHydrothermalLine(horizontalLine)).toEqual([
+        { x: 1, y: 1 },
+        { x: 1, y: 2 },
+        { x: 1, y: 3 },
       ]);
     });
   });

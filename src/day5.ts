@@ -15,6 +15,16 @@ export function parseHydrothermalLines(input: string[]): Array<Line> {
   return input.map(parseLine);
 }
 
+export function plotHydrothermalLine(line: Line): Point[] {
+  const yDiff = line.end.y - line.start.y;
+  const plotting: Point[] = [];
+  for (let i = 0; i <= yDiff; i++) {
+    plotting.push({ x: line.start.x, y: line.start.x + i });
+  }
+
+  return plotting;
+}
+
 // @ts-ignore
 export function computePointsOverlapping(input: string[]): number {
   return 0;
