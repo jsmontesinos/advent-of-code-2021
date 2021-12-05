@@ -12,7 +12,7 @@ function parseLine(input: string): Line {
 }
 
 export function parseHydrothermalLines(input: string[]): Array<Line> {
-  return [parseLine(input[0])];
+  return input.map(parseLine);
 }
 
 // @ts-ignore

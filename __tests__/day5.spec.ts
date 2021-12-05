@@ -8,6 +8,14 @@ describe('day1', () => {
         { start: { x: 1, y: 1 }, end: { x: 1, y: 3 } },
       ]);
     });
+
+    it('should parse an input of two lines', () => {
+      const input = ['1,1 -> 1,3', '2,1 -> 1,0'];
+      expect(parseHydrothermalLines(input)).toEqual([
+        { start: { x: 1, y: 1 }, end: { x: 1, y: 3 } },
+        { start: { x: 2, y: 1 }, end: { x: 1, y: 0 } },
+      ]);
+    });
   });
 
   describe('part1', () => {
