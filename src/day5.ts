@@ -38,20 +38,17 @@ export function computePointsOverlapping(input: string[]): number {
   const isVertical = (line: Line) => line.start.x === line.end.x;
   const isHorizontal = (line: Line) => line.start.y === line.end.y;
 
-  const countingArray = input
+  const countingMap = input
     .map(parseLine)
     .filter((line) => isVertical(line) || isHorizontal(line))
     .flatMap(plotHydrothermalLine)
     .map(getPointKey)
     .reduce(
-      (acc, current) => ({
-        ...acc,
-        [current]: (acc[current] ?? 0) + 1,
-      }),
-      {},
+      (acc, current) => acc.set(current, (acc.get(current) ?? 0) + 1),
+      new Map<string, number>(),
     );
 
-  return Object.values(countingArray).filter((entry) => entry > 1).length;
+  return [...countingMap.values()].filter((entry) => entry > 1).length;
 }
 
 export async function day5(): Promise<string[]> {
