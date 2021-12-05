@@ -75,7 +75,7 @@ describe('day1', () => {
       '0,0 -> 8,8',
       '5,5 -> 8,2',
     ];
-    it.skip('should return 5 points overlaping', () => {
+    it('should return 5 points overlapping', () => {
       expect(computePointsOverlapping(inputExample)).toBe(5);
     });
   });
