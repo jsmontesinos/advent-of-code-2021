@@ -10,13 +10,10 @@ describe('day 6', () => {
       expect(getPopulation([3, 4], 1)).toEqual([2, 3]);
     });
     it('should return 2 fish if 1 fish has produced another', () => {
-      expect(getPopulation([3], 4)).toEqual([6, 8]);
+      expect(getPopulationLength([3], 4)).toBe(2);
     });
     it('should return 26 fish after 18 days', () => {
-      expect(getPopulation([3, 4, 3, 1, 2], 18)).toEqual([
-        6, 0, 6, 4, 5, 6, 0, 1, 1, 2, 6, 0, 1, 1, 1, 2, 2, 3, 3, 4, 6, 7, 8, 8,
-        8, 8,
-      ]);
+      expect(getPopulationLength([3, 4, 3, 1, 2], 18)).toBe(26);
     });
 
     it('should return 5934 fish after 80 days', () => {
@@ -31,6 +28,12 @@ describe('day 6', () => {
     it('should grow up to 727 fish after 3 days for example input', async () => {
       const input = await returnExampleDay6();
       expect(getPopulationLength(input, 2)).toBe(357);
+    });
+  });
+
+  describe('part2', () => {
+    it('should calculate population for one individual in not exponential time', () => {
+      expect(getPopulationLength([3, 4, 3, 1, 2], 256)).toBe(26984457539);
     });
   });
 });
