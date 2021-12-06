@@ -1,5 +1,5 @@
 import { readyDayFixture } from '../src/day-common';
-import { getPopulation } from '../src/day6';
+import { getPopulation, getPopulationLength } from '../src/day6';
 
 describe('day 6', () => {
   describe('part 1', () => {
@@ -20,17 +20,17 @@ describe('day 6', () => {
     });
 
     it('should return 5934 fish after 80 days', () => {
-      expect(getPopulation([3, 4, 3, 1, 2], 80).length).toBe(5934);
+      expect(getPopulationLength([3, 4, 3, 1, 2], 80)).toBe(5934);
     });
 
     it('should return 657 fish after 2 days for example input', async () => {
       const input = await returnExampleDay6();
-      expect(getPopulation(input, 2).length).toBe(357);
+      expect(getPopulationLength(input, 2)).toBe(357);
     });
 
     it('should grow up to 727 fish after 3 days for example input', async () => {
       const input = await returnExampleDay6();
-      expect(getPopulation(input, 2).length).toBe(357);
+      expect(getPopulationLength(input, 2)).toBe(357);
     });
   });
 });

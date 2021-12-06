@@ -18,12 +18,20 @@ export function getPopulation(input: number[], days: number): number[] {
   return population;
 }
 
+export function getPopulationLength(input: number[], days: number): number {
+  return getPopulation(input, days).length;
+}
+
 export async function day6(): Promise<string[]> {
   const lines = await readyDayFixture(6);
   return [
-    getPopulation(
+    getPopulationLength(
       lines[0].split(',').map((n) => parseInt(n, 10)),
       80,
-    ).length.toString(),
+    ).toString(),
+    getPopulationLength(
+      lines[0].split(',').map((n) => parseInt(n, 10)),
+      256,
+    ).toString(),
   ];
 }
