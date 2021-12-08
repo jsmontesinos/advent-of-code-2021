@@ -16,8 +16,13 @@ describe('day 8', () => {
     ];
 
     it('should get 0 number of unique segment instances in a | cedba cedbg cedba', () => {
-      expect(countUniqueSegmentInstances(exampleInput)).toBe(0);
+      expect(countUniqueSegmentInstances(['a | cedba cedbg cedba'])).toBe(0);
     });
+
+    it('should get 1 number of unique segment instances in a | ce cedbg cedba', () => {
+      expect(countUniqueSegmentInstances(['a | ce cedbg cedba'])).toBe(1);
+    });
+
     it.skip('should get number of unique segment instances in example input', () => {
       expect(countUniqueSegmentInstances(exampleInput)).toBe(26);
     });
