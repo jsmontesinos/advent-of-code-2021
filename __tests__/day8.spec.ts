@@ -1,4 +1,4 @@
-import { countUniqueSegmentInstances } from '../src/day8';
+import { countUniqueSegmentInstances, decodeDisplay } from '../src/day8';
 
 const simpleExampleInput = [
   'acedgfb cdfbe gcdfa fbcad dab cefabd cdfgeb eafb cagedb ab | cdfeb fcadb cdfeb cdbaf',
@@ -53,6 +53,16 @@ describe('day 8', () => {
 
     it('should get number of unique segment instances in example input', () => {
       expect(countUniqueSegmentInstances(exampleInput)).toBe(26);
+    });
+  });
+
+  describe('part 2', () => {
+    it.skip('should decode all lines and return 5353 for simple example', () => {
+      expect(decodeDisplay(exampleInput)).toBe(5353);
+    });
+
+    it.skip('should decode all lines and return 61229 for larger example', () => {
+      expect(decodeDisplay(exampleInput)).toBe(61229);
     });
   });
 });

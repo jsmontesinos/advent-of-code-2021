@@ -14,6 +14,11 @@ function countUniqueSegmentInstancesInLine(line: string): number {
     .filter((digit) => [2, 7, 4, 3].includes(digit.length)).length;
 }
 
+// @ts-ignore
+export function decodeDisplay(input: string[]): number {
+  return 0;
+}
+
 export async function day8(): Promise<string[]> {
   const lines = await readyDayFixture(8);
   return [countUniqueSegmentInstances(lines).toString()];
