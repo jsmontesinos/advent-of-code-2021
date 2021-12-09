@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 type Point = { x: number; y: number };
 type Line = { start: Point; end: Point };
@@ -79,7 +79,7 @@ export function computePointsOverlapping(
 }
 
 export async function day5(): Promise<string[]> {
-  const lines = await readyDayFixture(5);
+  const lines = await readDayFixture(5);
   return [
     computePointsOverlapping(lines, isHorizontalOrVertical).toString(),
     computePointsOverlapping(lines).toString(),

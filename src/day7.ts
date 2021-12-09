@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 export function getLessFuelPositionForCrabSubmarines(input: number[]): number {
   const orderedInput = [...input].sort((a, b) => a - b);
@@ -39,7 +39,7 @@ export function getFuelNeededForCrabSubmarinesWithIncrementalDistanceFunction(
 }
 
 export async function day7(): Promise<string[]> {
-  const lines = await readyDayFixture(7);
+  const lines = await readDayFixture(7);
   const numericValues = lines[0].split(',').map((n) => parseInt(n, 10));
   return [
     getFuelNeededForCrabSubmarines(numericValues).toString(),

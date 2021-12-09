@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 import { processInputInstructionsWithAim } from './day2-part2';
 
 type Position = { horizontal: number; depth: number };
@@ -73,7 +73,7 @@ function processPosition(position: Position): number {
 }
 
 export async function day2(): Promise<string[]> {
-  const lines = await readyDayFixture(2);
+  const lines = await readDayFixture(2);
   return [
     processPosition(processInputInstructions(lines))?.toString(),
     processPosition(processInputInstructionsWithAim(lines))?.toString(),

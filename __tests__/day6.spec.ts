@@ -1,4 +1,4 @@
-import { readyDayFixture } from '../src/day-common';
+import { readDayFixture } from '../src/day-common';
 import { getPopulation, getPopulationLength } from '../src/day6';
 
 describe('day 6', () => {
@@ -39,5 +39,5 @@ describe('day 6', () => {
 });
 
 async function returnExampleDay6() {
-  return (await readyDayFixture(6))[0].split(',').map((n) => parseInt(n, 10));
+  return (await readDayFixture(6))[0].split(',').map((n) => parseInt(n, 10));
 }

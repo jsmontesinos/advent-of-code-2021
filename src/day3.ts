@@ -1,4 +1,4 @@
-import { readyDayFixture, transposeMatrix } from './day-common';
+import { readDayFixture, transposeMatrix } from './day-common';
 
 export function getMoreFrequentOrOne(input: string[]): '1' | '0' {
   return input.filter((c) => c === '1').length >=
@@ -65,7 +65,7 @@ function getLifeSupportRating(input: string[]): number {
 }
 
 export async function day3(): Promise<string[]> {
-  const lines = await readyDayFixture(3);
+  const lines = await readDayFixture(3);
   return [
     getPowerConsumption(lines).toString(),
     getLifeSupportRating(lines).toString(),

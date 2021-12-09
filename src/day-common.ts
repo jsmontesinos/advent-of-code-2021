@@ -1,7 +1,7 @@
 import { createInterface } from 'readline';
 import { createReadStream } from 'fs';
 
-export async function readyDayFixture(day: number): Promise<string[]> {
+export async function readDayFixture(day: number): Promise<string[]> {
   return readFile(`./fixtures/day${day}`);
 }
 

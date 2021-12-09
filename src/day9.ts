@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 type HeightMap = number[][];
 type HeightMapPosition = { x: number; y: number; height: number };
@@ -80,7 +80,7 @@ export function multiplyThreeLargerBasins(heightMap: HeightMap): number {
 }
 
 export async function day9(): Promise<string[]> {
-  const lines = await readyDayFixture(9);
+  const lines = await readDayFixture(9);
   return [
     calculateRiskLevel(locateLowPoints(parseToHeightMap(lines))).toString(),
     multiplyThreeLargerBasins(parseToHeightMap(lines)).toString(),

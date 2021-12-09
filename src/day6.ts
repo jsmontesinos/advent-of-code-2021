@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 export function getPopulation(input: number[], days: number): number[] {
   let day = 0;
@@ -60,7 +60,7 @@ export function getPopulationLength(input: number[], days: number): number {
 }
 
 export async function day6(): Promise<string[]> {
-  const lines = await readyDayFixture(6);
+  const lines = await readDayFixture(6);
   return [
     getPopulationLength(
       lines[0].split(',').map((n) => parseInt(n, 10)),

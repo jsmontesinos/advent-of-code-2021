@@ -1,4 +1,4 @@
-import { readyDayFixture, splitInGroups, transposeMatrix } from './day-common';
+import { readDayFixture, splitInGroups, transposeMatrix } from './day-common';
 
 type Bingo = { gameNumbers: number[]; boards: BingoBoard[] };
 type BingoBoard = number[][];
@@ -130,7 +130,7 @@ function getScoreForBoardState(game: BingoGame): number {
 }
 
 export async function day4(): Promise<string[]> {
-  const lines = await readyDayFixture(4);
+  const lines = await readDayFixture(4);
   return [
     resolveBingoScore(lines).toString(),
     getScoreFromLastWinBoard(lines).toString(),

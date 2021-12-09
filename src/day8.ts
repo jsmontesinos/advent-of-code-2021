@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 export function countUniqueSegmentInstances(input: string[]): number {
   return input.reduce(
@@ -110,7 +110,7 @@ export function decodeAll(input: string[]): number {
 }
 
 export async function day8(): Promise<string[]> {
-  const lines = await readyDayFixture(8);
+  const lines = await readDayFixture(8);
   return [
     countUniqueSegmentInstances(lines).toString(),
     decodeAll(lines).toString(),

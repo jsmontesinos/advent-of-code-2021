@@ -1,4 +1,4 @@
-import { readyDayFixture } from './day-common';
+import { readDayFixture } from './day-common';
 
 export function depthIncreaseCounter(input: number[]): number {
   return input.reduce(
@@ -21,7 +21,7 @@ export function threeMeasurementWindowIncreaseCounter(input: number[]): number {
 }
 
 export async function day1(): Promise<string[]> {
-  const lines = await readyDayFixture(1);
+  const lines = await readDayFixture(1);
   return [
     depthIncreaseCounter(lines.map((line) => parseInt(line, 10)))?.toString(),
     threeMeasurementWindowIncreaseCounter(
