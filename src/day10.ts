@@ -60,7 +60,6 @@ const closingTokenList: ClosingTokenDefinition[] = [
     points: 1197,
     suggestionPoints: 3,
   },
-
   {
     symbol: ']',
     type: 'brackets',
@@ -68,7 +67,6 @@ const closingTokenList: ClosingTokenDefinition[] = [
     points: 57,
     suggestionPoints: 2,
   },
-
   {
     symbol: ')',
     type: 'parentheses',
@@ -76,7 +74,6 @@ const closingTokenList: ClosingTokenDefinition[] = [
     points: 3,
     suggestionPoints: 1,
   },
-
   {
     symbol: '>',
     type: 'compare',
