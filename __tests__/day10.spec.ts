@@ -31,4 +31,24 @@ describe('day10', () => {
       expect(sumPointsForCorruptedLines(exampleInput)).toBe(26397);
     });
   });
+  describe('part2', () => {
+    it('should return }}]])})] for [({(<(())[]>[[{[]{<()<>>', () => {
+      expect(parseLineChunks(exampleInput[0])).toEqual({
+        status: 'incomplete',
+        suggestion: '}}]])})]',
+      });
+    });
+    it('should return )}>]}) for [(()[<>])]({[<{<<[]>>(', () => {
+      expect(parseLineChunks(exampleInput[1])).toEqual({
+        status: 'incomplete',
+        suggestion: ')}>]})',
+      });
+    });
+    it('should return }}>}>)))) for (((({<>}<{<{<>}{[]{[]{}', () => {
+      expect(parseLineChunks(exampleInput[3])).toEqual({
+        status: 'incomplete',
+        suggestion: '}}>}>))))',
+      });
+    });
+  });
 });

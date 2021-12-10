@@ -12,6 +12,7 @@ type CorruptedParsingResult = {
 
 type IncompleteParsingResult = {
   status: 'incomplete';
+  suggestion: string;
 };
 
 type ValidParsingResult = {
@@ -20,23 +21,50 @@ type ValidParsingResult = {
 
 type ChunkType = 'parentheses' | 'brackets' | 'curlyBrackets' | 'compare';
 type ChunkAction = 'open' | 'close';
-type TokenSymbol = '{' | '}' | '[' | ']' | '(' | ')' | '<' | '>';
+type OpeningTokenSymbol = '{' | '[' | '(' | '<';
+type ClosingTokenSymbol = '}' | ']' | ')' | '>';
+type TokenSymbol = OpeningTokenSymbol | ClosingTokenSymbol;
 type TokenDefinition = {
   symbol: TokenSymbol;
   type: ChunkType;
   action: ChunkAction;
   points?: number;
+  completePoints?: number;
 };
 
 const tokenList: TokenDefinition[] = [
   { symbol: '{', type: 'curlyBrackets', action: 'open' },
-  { symbol: '}', type: 'curlyBrackets', action: 'close', points: 1197 },
+  {
+    symbol: '}',
+    type: 'curlyBrackets',
+    action: 'close',
+    points: 1197,
+    completePoints: 3,
+  },
   { symbol: '[', type: 'brackets', action: 'open' },
-  { symbol: ']', type: 'brackets', action: 'close', points: 57 },
+  {
+    symbol: ']',
+    type: 'brackets',
+    action: 'close',
+    points: 57,
+    completePoints: 2,
+  },
   { symbol: '(', type: 'parentheses', action: 'open' },
-  { symbol: ')', type: 'parentheses', action: 'close', points: 3 },
+  {
+    symbol: ')',
+    type: 'parentheses',
+    action: 'close',
+    points: 3,
+    completePoints: 1,
+  },
   { symbol: '<', type: 'compare', action: 'open' },
-  { symbol: '>', type: 'compare', action: 'close', points: 25137 },
+  {
+    symbol: '>',
+    type: 'compare',
+    action: 'close',
+    points: 25137,
+    completePoints: 4,
+  },
 ];
 
 const tokenMap: { [key in TokenSymbol]: TokenDefinition } = tokenList.reduce(
@@ -87,7 +115,17 @@ export function parseLineChunks(input: string): ParsingResult {
     }
   }
 
-  return { status: 'valid' };
+  if (delimiterQueue.length) {
+    return {
+      status: 'incomplete',
+      suggestion: delimiterQueue
+        .map((d) => findClosingFor(d).symbol as ClosingTokenSymbol)
+        .reverse()
+        .join(''),
+    };
+  } else {
+    return { status: 'valid' };
+  }
 }
 
 export async function day10(): Promise<string[]> {
