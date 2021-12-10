@@ -1,4 +1,9 @@
-import { parseLineChunks, sumPointsForCorruptedLines } from '../src/day10';
+import {
+  calculateSuggestionPoints,
+  getMiddleScoreForSuggestions,
+  parseLineChunks,
+  sumPointsForCorruptedLines,
+} from '../src/day10';
 
 const exampleInput = [
   '[({(<(())[]>[[{[]{<()<>>',
@@ -32,22 +37,37 @@ describe('day10', () => {
     });
   });
   describe('part2', () => {
-    it('should return }}]])})] for [({(<(())[]>[[{[]{<()<>>', () => {
-      expect(parseLineChunks(exampleInput[0])).toEqual({
-        status: 'incomplete',
-        suggestion: '}}]])})]',
+    describe('parseLineChunks()', () => {
+      it('should return }}]])})] for [({(<(())[]>[[{[]{<()<>>', () => {
+        expect(parseLineChunks(exampleInput[0])).toEqual({
+          status: 'incomplete',
+          suggestion: '}}]])})]',
+        });
+      });
+      it('should return )}>]}) for [(()[<>])]({[<{<<[]>>(', () => {
+        expect(parseLineChunks(exampleInput[1])).toEqual({
+          status: 'incomplete',
+          suggestion: ')}>]})',
+        });
+      });
+      it('should return }}>}>)))) for (((({<>}<{<{<>}{[]{[]{}', () => {
+        expect(parseLineChunks(exampleInput[3])).toEqual({
+          status: 'incomplete',
+          suggestion: '}}>}>))))',
+        });
       });
     });
-    it('should return )}>]}) for [(()[<>])]({[<{<<[]>>(', () => {
-      expect(parseLineChunks(exampleInput[1])).toEqual({
-        status: 'incomplete',
-        suggestion: ')}>]})',
+    describe('calculateSuggestionPoints', () => {
+      it('should return 288957 for suggestion }}]])})]', () => {
+        expect(calculateSuggestionPoints('}}]])})]')).toBe(288957);
+      });
+      it('should return 5566 for suggestion )}>]})', () => {
+        expect(calculateSuggestionPoints(')}>]})')).toBe(5566);
       });
     });
-    it('should return }}>}>)))) for (((({<>}<{<{<>}{[]{[]{}', () => {
-      expect(parseLineChunks(exampleInput[3])).toEqual({
-        status: 'incomplete',
-        suggestion: '}}>}>))))',
+    describe('getMiddleScoreForSuggestions', () => {
+      it('should return middle score 288957', () => {
+        expect(getMiddleScoreForSuggestions(exampleInput)).toBe(288957);
       });
     });
   });

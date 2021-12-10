@@ -29,7 +29,7 @@ type TokenDefinition = {
   type: ChunkType;
   action: ChunkAction;
   points?: number;
-  completePoints?: number;
+  suggestionPoints?: number;
 };
 
 const tokenList: TokenDefinition[] = [
@@ -39,7 +39,7 @@ const tokenList: TokenDefinition[] = [
     type: 'curlyBrackets',
     action: 'close',
     points: 1197,
-    completePoints: 3,
+    suggestionPoints: 3,
   },
   { symbol: '[', type: 'brackets', action: 'open' },
   {
@@ -47,7 +47,7 @@ const tokenList: TokenDefinition[] = [
     type: 'brackets',
     action: 'close',
     points: 57,
-    completePoints: 2,
+    suggestionPoints: 2,
   },
   { symbol: '(', type: 'parentheses', action: 'open' },
   {
@@ -55,7 +55,7 @@ const tokenList: TokenDefinition[] = [
     type: 'parentheses',
     action: 'close',
     points: 3,
-    completePoints: 1,
+    suggestionPoints: 1,
   },
   { symbol: '<', type: 'compare', action: 'open' },
   {
@@ -63,7 +63,7 @@ const tokenList: TokenDefinition[] = [
     type: 'compare',
     action: 'close',
     points: 25137,
-    completePoints: 4,
+    suggestionPoints: 4,
   },
 ];
 
@@ -128,7 +128,29 @@ export function parseLineChunks(input: string): ParsingResult {
   }
 }
 
+export function calculateSuggestionPoints(suggestion: string): number {
+  return suggestion
+    .split('')
+    .map((s) => tokenMap[s as TokenSymbol].suggestionPoints)
+    .reduce((acc, current) => 5 * acc + current, 0);
+}
+
+export function getMiddleScoreForSuggestions(input: string[]): number {
+  const sortedScores = input
+    .map(parseLineChunks)
+    .filter((chunk) => chunk.status === 'incomplete')
+    .map((chunk) =>
+      calculateSuggestionPoints((chunk as IncompleteParsingResult).suggestion),
+    )
+    .sort((a, b) => a - b);
+
+  return sortedScores[Math.round((sortedScores.length - 1) / 2)];
+}
+
 export async function day10(): Promise<string[]> {
   const lines = await readDayFixture(10);
-  return [sumPointsForCorruptedLines(lines).toString()];
+  return [
+    sumPointsForCorruptedLines(lines).toString(),
+    getMiddleScoreForSuggestions(lines).toString(),
+  ];
 }
