@@ -9,7 +9,7 @@ export function parseGrid(input: string[]): GridStep {
   };
 }
 
-export function calculateNextEvolution(gridStep: GridStep): GridStep {
+export function calculateNextStep(gridStep: GridStep): GridStep {
   let flashes = 0;
   const grid = gridStep.grid.map((line) => line.map((cell) => cell + 1));
   let iterationFlashes = 0;
@@ -34,58 +34,46 @@ export function calculateNextEvolution(gridStep: GridStep): GridStep {
 
 function flashGridInPosition(grid: number[][], i: number, j: number) {
   grid[i][j] = Number.MIN_SAFE_INTEGER;
-  if (!isOutsideGrid(grid, i + 1, j)) {
-    grid[i + 1][j] += 1;
-  }
-  if (!isOutsideGrid(grid, i - 1, j)) {
-    grid[i - 1][j] += 1;
-  }
-  if (!isOutsideGrid(grid, i, j + 1)) {
-    grid[i][j + 1] += 1;
-  }
-  if (!isOutsideGrid(grid, i, j - 1)) {
-    grid[i][j - 1] += 1;
-  }
-  if (!isOutsideGrid(grid, i + 1, j + 1)) {
-    grid[i + 1][j + 1] += 1;
-  }
-  if (!isOutsideGrid(grid, i + 1, j - 1)) {
-    grid[i + 1][j - 1] += 1;
-  }
-  if (!isOutsideGrid(grid, i - 1, j + 1)) {
-    grid[i - 1][j + 1] += 1;
-  }
-  if (!isOutsideGrid(grid, i - 1, j - 1)) {
-    grid[i - 1][j - 1] += 1;
-  }
+  [
+    [i + 1, j],
+    [i - 1, j],
+    [i, j + 1],
+    [i, j - 1],
+    [i + 1, j + 1],
+    [i + 1, j - 1],
+    [i - 1, j + 1],
+    [i - 1, j - 1],
+  ]
+    .filter(([i, j]) => isInGrid(grid, i, j))
+    .forEach(([i, j]) => (grid[i][j] += 1));
 }
 
-function isOutsideGrid(grid: number[][], i: number, j: number) {
-  return j < 0 || i < 0 || j >= grid[0].length || i >= grid.length;
+function isInGrid(grid: number[][], i: number, j: number) {
+  return j >= 0 && i >= 0 && j < grid[0].length && i < grid.length;
 }
 
 export function calculateNumberOfFlashes(
   input: string[],
   steps: number,
 ): number {
-  let grid = parseGrid(input);
+  let gridStep = parseGrid(input);
   let totalFlashes = 0;
   for (let i = 0; i < steps; i++) {
-    grid = calculateNextEvolution(grid);
-    totalFlashes += grid.flashes;
+    gridStep = calculateNextStep(gridStep);
+    totalFlashes += gridStep.flashes;
   }
 
   return totalFlashes;
 }
 
 export function getFirstStepWhenAllFlashes(input: string[]): number {
-  let grid = parseGrid(input);
+  let gridStep = parseGrid(input);
   let flashes = 0;
   let step = 0;
-  const allFlashing = grid.grid.length * grid.grid[0].length;
+  const allFlashing = gridStep.grid.length * gridStep.grid[0].length;
   while (flashes < allFlashing) {
-    grid = calculateNextEvolution(grid);
-    flashes = grid.flashes;
+    gridStep = calculateNextStep(gridStep);
+    flashes = gridStep.flashes;
     ++step;
   }
 

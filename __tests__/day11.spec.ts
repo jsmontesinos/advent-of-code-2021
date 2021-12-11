@@ -1,5 +1,5 @@
 import {
-  calculateNextEvolution,
+  calculateNextStep,
   calculateNumberOfFlashes,
   getFirstStepWhenAllFlashes,
   parseGrid,
@@ -36,7 +36,7 @@ describe('day1', () => {
     });
 
     it('should evolute 1 step a simple board without flashing', () => {
-      expect(calculateNextEvolution(parseGrid(['10', '01']))).toEqual({
+      expect(calculateNextStep(parseGrid(['10', '01']))).toEqual({
         grid: [
           [2, 1],
           [1, 2],
@@ -46,7 +46,7 @@ describe('day1', () => {
     });
 
     it('should evolute 1 step a simple board with 1 flash', () => {
-      expect(calculateNextEvolution(parseGrid(['10', '09']))).toEqual({
+      expect(calculateNextStep(parseGrid(['10', '09']))).toEqual({
         grid: [
           [3, 2],
           [2, 0],
@@ -56,7 +56,7 @@ describe('day1', () => {
     });
 
     it('should return the right simple next board after step 1', () => {
-      expect(calculateNextEvolution(parseGrid(simpleExample))).toEqual({
+      expect(calculateNextStep(parseGrid(simpleExample))).toEqual({
         grid: [
           [3, 4, 5, 4, 3],
           [4, 0, 0, 0, 4],
