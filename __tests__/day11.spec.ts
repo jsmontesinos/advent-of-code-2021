@@ -34,15 +34,38 @@ describe('day1', () => {
       });
     });
 
+    it('should evolute 1 step a simple board without flashing', () => {
+      expect(calculateNextEvolution(parseGrid(['10', '01']))).toEqual({
+        grid: [
+          [2, 1],
+          [1, 2],
+        ],
+        flashes: 0,
+      });
+    });
+
     it.skip('should return the right simple next board after step 1', () => {
-      expect(calculateNextEvolution(simpleExample)).toEqual({
-        grid: ['34543', '40004', '50005', '40004', '34543'],
+      expect(calculateNextEvolution(parseGrid(simpleExample))).toEqual({
+        grid: [
+          [3, 4, 5, 4, 3],
+          [4, 0, 0, 0, 4],
+          [5, 0, 0, 0, 5],
+          [4, 0, 0, 0, 4],
+          [3, 4, 5, 4, 3],
+        ],
         flashes: 8,
       });
     });
+
     it.skip('should return the right simple next board after step 2', () => {
-      expect(calculateNextEvolution(simpleExample)).toEqual({
-        grid: ['45654', '51115', '61116', '51115', '45654'],
+      expect(calculateNextEvolution(parseGrid(simpleExample))).toEqual({
+        grid: [
+          [4, 5, 6, 5, 4],
+          [5, 1, 1, 1, 5],
+          [6, 1, 1, 1, 6],
+          [5, 1, 1, 1, 5],
+          [4, 5, 6, 5, 4],
+        ],
         flashes: 0,
       });
     });

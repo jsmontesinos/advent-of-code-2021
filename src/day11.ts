@@ -8,9 +8,9 @@ export function parseGrid(input: string[]): GridStep {
 }
 
 // @ts-ignore
-export function calculateNextEvolution(input: string[]): GridStep {
+export function calculateNextEvolution(gridStep: GridStep): GridStep {
   return {
-    grid: [],
+    grid: gridStep.grid.map((line) => line.map((cell) => cell + 1)),
     flashes: 0,
   };
 }
