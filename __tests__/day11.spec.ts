@@ -1,6 +1,7 @@
 import {
   calculateNextEvolution,
   calculateNumberOfFlashes,
+  getFirstStepWhenAllFlashes,
   parseGrid,
 } from '../src/day11';
 
@@ -44,7 +45,17 @@ describe('day1', () => {
       });
     });
 
-    it.skip('should return the right simple next board after step 1', () => {
+    it('should evolute 1 step a simple board with 1 flash', () => {
+      expect(calculateNextEvolution(parseGrid(['10', '09']))).toEqual({
+        grid: [
+          [3, 2],
+          [2, 0],
+        ],
+        flashes: 1,
+      });
+    });
+
+    it('should return the right simple next board after step 1', () => {
       expect(calculateNextEvolution(parseGrid(simpleExample))).toEqual({
         grid: [
           [3, 4, 5, 4, 3],
@@ -53,24 +64,20 @@ describe('day1', () => {
           [4, 0, 0, 0, 4],
           [3, 4, 5, 4, 3],
         ],
-        flashes: 8,
+        flashes: 9,
       });
     });
 
-    it.skip('should return the right simple next board after step 2', () => {
-      expect(calculateNextEvolution(parseGrid(simpleExample))).toEqual({
-        grid: [
-          [4, 5, 6, 5, 4],
-          [5, 1, 1, 1, 5],
-          [6, 1, 1, 1, 6],
-          [5, 1, 1, 1, 5],
-          [4, 5, 6, 5, 4],
-        ],
-        flashes: 0,
-      });
-    });
-    it.skip('should return 1656 flashes in 100 steps for largeExample', () => {
+    it('should return 1656 flashes in 100 steps for largeExample', () => {
       expect(calculateNumberOfFlashes(largeExample, 100)).toBe(1656);
+    });
+  });
+
+  describe('part2', () => {
+    describe('getFirstStepWhenAllFlashes', () => {
+      it('should return 195 as first step with all octopuses flashing', () => {
+        expect(getFirstStepWhenAllFlashes(largeExample)).toBe(195);
+      });
     });
   });
 });
