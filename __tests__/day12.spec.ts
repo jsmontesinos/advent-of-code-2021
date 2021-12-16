@@ -104,7 +104,6 @@ describe('day 12', () => {
       ]);
     });
     it('should return 10 paths for simpleExample', () => {
-      console.log(calculateCavePaths(simpleExample));
       expect(calculateNumberOfCavePaths(simpleExample)).toBe(10);
     });
 

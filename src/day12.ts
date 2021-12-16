@@ -1,5 +1,7 @@
 import { readDayFixture } from './day-common';
 
+type CaveType = 'start' | 'small' | 'big' | 'end';
+
 class CaveGraph {
   public start: Cave;
   public end: Cave;
@@ -37,7 +39,8 @@ class CaveGraph {
 
     node.adjacentNodes.forEach((nextNode) => {
       if (
-        nextNode.isBigCave() ||
+        (!['start', 'end'].includes(nextNode.type) &&
+          nextNode.type === 'big') ||
         currentPath.every((pathNode) => !pathNode.isEqual(nextNode))
       ) {
         this.depthFirstSearch(nextNode, [...currentPath, nextNode], allPaths);
@@ -57,10 +60,12 @@ class CaveGraph {
 
 class Cave {
   public name: string;
+  public type: CaveType;
   public adjacentNodes: Array<Cave>;
 
   constructor(name: string) {
     this.name = name;
+    this.type = this.calculateType();
     this.adjacentNodes = [];
   }
 
@@ -68,8 +73,18 @@ class Cave {
     return this.name === otherNode.name;
   }
 
-  public isBigCave(): boolean {
-    return this.name === this.name.toUpperCase();
+  private calculateType(): CaveType {
+    if (this.name === 'start') {
+      return 'start';
+    }
+    if (this.name === 'end') {
+      return 'end';
+    }
+    if (this.name === this.name.toUpperCase()) {
+      return 'big';
+    }
+
+    return 'small';
   }
 }
 
