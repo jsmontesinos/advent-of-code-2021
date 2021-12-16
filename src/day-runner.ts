@@ -1,6 +1,7 @@
 import { day1 } from './day1';
 import { day10 } from './day10';
 import { day11 } from './day11';
+import { day12 } from './day12';
 import { day2 } from './day2';
 import { day3 } from './day3';
 import { day4 } from './day4';
@@ -23,6 +24,7 @@ import { day9 } from './day9';
     await day9(),
     await day10(),
     await day11(),
+    await day12(),
   ].forEach((day, index) =>
     console.log(
       `Day ${index + 1}: `,
