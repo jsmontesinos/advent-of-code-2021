@@ -1,4 +1,9 @@
-import { calculateNumberOfCavePaths, calculateCavePaths } from '../src/day12';
+import {
+  calculateNumberOfCavePaths,
+  calculateCavePaths,
+  calculateCavePathsPart2,
+  calculateNumberOfCavePathsPart2,
+} from '../src/day12';
 
 const simpleExample = [
   'start-A',
@@ -113,6 +118,63 @@ describe('day 12', () => {
 
     it('should return 226 paths for evenLargerExample', () => {
       expect(calculateNumberOfCavePaths(evenLargerExample)).toBe(226);
+    });
+  });
+
+  describe('part2', () => {
+    it('should return all paths when small cave can be visited twice for simple Example', () => {
+      expect(calculateCavePathsPart2(simpleExample)).toEqual(
+        expect.arrayContaining([
+          'start-A-b-A-b-A-c-A-end',
+          'start-A-b-A-b-A-end',
+          'start-A-b-A-b-end',
+          'start-A-b-A-c-A-b-A-end',
+          'start-A-b-A-c-A-b-end',
+          'start-A-b-A-c-A-c-A-end',
+          'start-A-b-A-c-A-end',
+          'start-A-b-A-end',
+          'start-A-b-d-b-A-c-A-end',
+          'start-A-b-d-b-A-end',
+          'start-A-b-d-b-end',
+          'start-A-b-end',
+          'start-A-c-A-b-A-b-A-end',
+          'start-A-c-A-b-A-b-end',
+          'start-A-c-A-b-A-c-A-end',
+          'start-A-c-A-b-A-end',
+          'start-A-c-A-b-d-b-A-end',
+          'start-A-c-A-b-d-b-end',
+          'start-A-c-A-b-end',
+          'start-A-c-A-c-A-b-A-end',
+          'start-A-c-A-c-A-b-end',
+          'start-A-c-A-c-A-end',
+          'start-A-c-A-end',
+          'start-A-end',
+          'start-b-A-b-A-c-A-end',
+          'start-b-A-b-A-end',
+          'start-b-A-b-end',
+          'start-b-A-c-A-b-A-end',
+          'start-b-A-c-A-b-end',
+          'start-b-A-c-A-c-A-end',
+          'start-b-A-c-A-end',
+          'start-b-A-end',
+          'start-b-d-b-A-c-A-end',
+          'start-b-d-b-A-end',
+          'start-b-d-b-end',
+          'start-b-end',
+        ]),
+      );
+    });
+
+    it('should return 36 as number of possible paths for simpleExample', () => {
+      expect(calculateNumberOfCavePathsPart2(simpleExample)).toBe(36);
+    });
+
+    it('should return 103 as number of possible paths for largerExample', () => {
+      expect(calculateNumberOfCavePathsPart2(largerExample)).toBe(103);
+    });
+
+    it('should return 3509 as number of possible paths for evenLargerExample', () => {
+      expect(calculateNumberOfCavePathsPart2(evenLargerExample)).toBe(3509);
     });
   });
 });

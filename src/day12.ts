@@ -2,6 +2,43 @@ import { readDayFixture } from './day-common';
 
 type CaveType = 'start' | 'small' | 'big' | 'end';
 
+interface CaveNodeStrategy {
+  shouldIncludeNodeInPath(cave: Cave, path: Array<Cave>): boolean;
+}
+
+class Part1NodeStrategy implements CaveNodeStrategy {
+  shouldIncludeNodeInPath(cave: Cave, path: Array<Cave>): boolean {
+    return (
+      cave.type === 'big' ||
+      cave.type === 'end' ||
+      (cave.type === 'small' &&
+        path.every((pathNode) => !pathNode.isEqual(cave)))
+    );
+  }
+}
+
+class Part2NodeStrategy implements CaveNodeStrategy {
+  shouldIncludeNodeInPath(cave: Cave, path: Array<Cave>): boolean {
+    return (
+      cave.type === 'big' ||
+      cave.type === 'end' ||
+      (cave.type === 'small' &&
+        (path.every((pathNode) => !pathNode.isEqual(cave)) ||
+          Object.values(
+            path
+              .filter((pathNode) => pathNode.type === 'small')
+              .reduce(
+                (acc, current) => ({
+                  ...acc,
+                  [current.name]: (acc[current.name] ?? 0) + 1,
+                }),
+                {},
+              ),
+          ).every((value) => value < 2)))
+    );
+  }
+}
+
 class CaveGraph {
   public start: Cave;
   public end: Cave;
@@ -31,6 +68,7 @@ class CaveGraph {
     node: Cave,
     currentPath: Array<Cave>,
     allPaths: Array<Array<Cave>>,
+    caveNodeStrategy: CaveNodeStrategy,
   ): void {
     if (node.name === 'end') {
       allPaths.push(currentPath);
@@ -38,20 +76,26 @@ class CaveGraph {
     }
 
     node.adjacentNodes.forEach((nextNode) => {
-      if (
-        (!['start', 'end'].includes(nextNode.type) &&
-          nextNode.type === 'big') ||
-        currentPath.every((pathNode) => !pathNode.isEqual(nextNode))
-      ) {
-        this.depthFirstSearch(nextNode, [...currentPath, nextNode], allPaths);
+      if (caveNodeStrategy.shouldIncludeNodeInPath(nextNode, currentPath)) {
+        this.depthFirstSearch(
+          nextNode,
+          [...currentPath, nextNode],
+          allPaths,
+          caveNodeStrategy,
+        );
       }
     });
   }
 
-  searchForAllPaths(): Array<Array<Cave>> {
+  searchForAllPaths(caveNodeStrategy: CaveNodeStrategy): Array<Array<Cave>> {
     const allPaths: Array<Array<Cave>> = [];
     this.start.adjacentNodes.forEach((node) => {
-      this.depthFirstSearch(node, [this.start, node], allPaths);
+      this.depthFirstSearch(
+        node,
+        [this.start, node],
+        allPaths,
+        caveNodeStrategy,
+      );
     });
 
     return allPaths;
@@ -89,14 +133,29 @@ class Cave {
 }
 
 export function calculateCavePaths(input: string[]): string[] {
-  const graph = parseCaveGraph(input);
-  return graph
-    .searchForAllPaths()
-    .map((path) => path.map((node) => node.name).join('-'));
+  return calculateCavePathsInternal(input, new Part1NodeStrategy());
 }
 
 export function calculateNumberOfCavePaths(input: string[]): number {
   return calculateCavePaths(input).length;
+}
+
+export function calculateCavePathsPart2(input: string[]): string[] {
+  return calculateCavePathsInternal(input, new Part2NodeStrategy());
+}
+
+export function calculateNumberOfCavePathsPart2(input: string[]): number {
+  return calculateCavePathsPart2(input).length;
+}
+
+function calculateCavePathsInternal(
+  input: string[],
+  caveNodeStrategy: CaveNodeStrategy,
+): string[] {
+  const graph = parseCaveGraph(input);
+  return graph
+    .searchForAllPaths(caveNodeStrategy)
+    .map((path) => path.map((node) => node.name).join('-'));
 }
 
 function parseCaveGraph(input: string[]): CaveGraph {
@@ -114,5 +173,8 @@ function parseCaveGraph(input: string[]): CaveGraph {
 
 export async function day12(): Promise<string[]> {
   const lines = await readDayFixture(12);
-  return [calculateNumberOfCavePaths(lines).toString()];
+  return [
+    calculateNumberOfCavePaths(lines).toString(),
+    calculateNumberOfCavePathsPart2(lines).toString(),
+  ];
 }
