@@ -2,6 +2,8 @@ import {
   calculateOverlappingPoints,
   foldPoint,
   parseTransparentOrigami,
+  plotPoints,
+  solveOrigami,
 } from '../src/day13';
 
 const exampleInput = [
@@ -90,6 +92,21 @@ describe('day13', () => {
       it('should return 17 as overlapping points for example', () => {
         expect(calculateOverlappingPoints(exampleInput)).toBe(17);
       });
+    });
+  });
+
+  describe('part2', () => {
+    it('should return 16 points when following all folding examples for exampleInput', () => {
+      expect(solveOrigami(exampleInput)).toHaveLength(16);
+    });
+    it('should properly plot exampleInput', () => {
+      expect(plotPoints(solveOrigami(exampleInput))).toEqual([
+        '#####',
+        '#...#',
+        '#...#',
+        '#...#',
+        '#####',
+      ]);
     });
   });
 });

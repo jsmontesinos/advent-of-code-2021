@@ -1,12 +1,47 @@
 import { readDayFixture } from './day-common';
 
+function calculateFold(points: Point[], fold: Fold): Point[] {
+  const foldingResult = points.map((point) => foldPoint(point, fold));
+
+  return [
+    ...new Map<string, Point>(
+      foldingResult.map((v) => [`${v[0]}_${v[1]}`, v]),
+    ).values(),
+  ];
+}
+
 export function calculateOverlappingPoints(input: string[]): number {
   const origami = parseTransparentOrigami(input);
-  const foldingResult = origami.points.map((point) =>
-    foldPoint(point, origami.folds[0]),
-  );
 
-  return new Map(foldingResult.map((v) => [`${v[0]}_${v[1]}`, v])).size;
+  return calculateFold(origami.points, origami.folds[0]).length;
+}
+
+export function solveOrigami(input: string[]): Point[] {
+  const origami = parseTransparentOrigami(input);
+
+  return origami.folds.reduce(
+    (acc, fold) => calculateFold(acc, fold),
+    origami.points,
+  );
+}
+
+export function plotPoints(points: Point[]): string[] {
+  const maxX = Math.max(...points.map((point) => point[0]));
+  const maxY = Math.max(...points.map((point) => point[1]));
+  const result: Array<string> = [];
+  for (let i = 0; i <= maxY; i++) {
+    let line = '';
+    for (let j = 0; j <= maxX; j++) {
+      line += points.some((point) => pointEquals(point, [j, i])) ? '#' : '.';
+    }
+    result.push(line);
+  }
+
+  return result;
+}
+
+function pointEquals(point1: Point, point2: Point): boolean {
+  return point1[0] === point2[0] && point1[1] === point2[1];
 }
 
 export function foldPoint(point: Point, fold: Fold): Point {
@@ -48,3 +83,9 @@ export async function day13(): Promise<string[]> {
   const lines = await readDayFixture(13);
   return [calculateOverlappingPoints(lines).toString()];
 }
+
+(async () => {
+  const lines = await readDayFixture(13);
+  const plotting = await plotPoints(solveOrigami(lines));
+  plotting.forEach((line) => console.log(line));
+})();
